@@ -1,6 +1,6 @@
-import {Link} from "react-router";
+import { Link} from "react-router";
+import { useEffect, useState } from "react";
 import ScoreCircle from "~/components/ScoreCircle";
-import {useEffect, useState} from "react";
 
 const ResumeCard = ({ resume: { id, companyName, jobTitle, feedback, imagePath } }: { resume: Resume }) => {
     const [resumeUrl, setResumeUrl] = useState('');

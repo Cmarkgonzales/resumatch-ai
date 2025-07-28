@@ -4,18 +4,20 @@
 
 @theme {
     --font-sans: "Mona Sans", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    --color-dark-200: #475467;
-    --color-light-blue-100: #c1d3f81a;
-    --color-light-blue-200: #a7bff14d;
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; /* Main font stack */
 
-    --color-badge-green: #d5faf1;
-    --color-badge-red: #f9e3e2;
-    --color-badge-yellow: #fceed8;
+    --color-dark-200: #475467; /* Dark text */
 
-    --color-badge-green-text: #254d4a;
-    --color-badge-red-text: #752522;
-    --color-badge-yellow-text: #73321b;
+    --color-light-blue-100: #c1d3f81a; /* Light blue bg (subtle) */
+    --color-light-blue-200: #a7bff14d; /* Light blue bg (hover) */
+
+    --color-badge-green: #d5faf1; /* Success badge bg */
+    --color-badge-red: #f9e3e2; /* Error badge bg */
+    --color-badge-yellow: #fceed8; /* Warning badge bg */
+
+    --color-badge-green-text: #254d4a; /* Success text */
+    --color-badge-red-text: #752522; /* Error text */
+    --color-badge-yellow-text: #73321b; /* Warning text */
 }
 
 html,

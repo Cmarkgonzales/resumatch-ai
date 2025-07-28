@@ -1,12 +1,12 @@
-import {Link, useNavigate, useParams} from "react-router";
-import {useEffect, useState} from "react";
-import {usePuterStore} from "../lib/puter";
+import { Link, useNavigate, useParams } from "react-router";
+import { useEffect, useState } from "react";
+import { usePuterStore } from "../lib/puter";
 import Summary from "../components/Summary";
 import ATS from "../components/ATS";
 import Details from "../components/Details";
 
 export const meta = () => ([
-    { title: 'Resumind | Review ' },
+    { title: 'ResuMatch AI | Resume Feedback ' },
     { name: 'description', content: 'Detailed overview of your resume' },
 ])
 
