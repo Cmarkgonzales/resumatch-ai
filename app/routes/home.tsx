@@ -2,7 +2,7 @@ import type { Route } from "./+types/home";
 import { Link, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import { usePuterStore } from "../lib/puter";
-import { resumesConstant as parsedResumes } from "../../constants";
+import { Upload } from "lucide-react";
 import Navbar from "../components/Navbar";
 import ResumeCard from "../components/ResumeCard";
 
@@ -14,7 +14,7 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
-    const { auth } = usePuterStore();
+    const { auth, kv } = usePuterStore();
     const [resumes, setResumes] = useState<Resume[]>([]);
     const [loadingResumes, setLoadingResumes] = useState(false);
     const navigate = useNavigate();
@@ -26,6 +26,11 @@ export default function Home() {
     useEffect(() => {
         const loadResumes = async () => {
             setLoadingResumes(true);
+            const resumes = (await kv.list('resume:*', true)) as KVItem[];
+
+            const parsedResumes = resumes?.map((resume) => (
+                JSON.parse(resume.value) as Resume
+            ))
             setResumes(parsedResumes || []);
             setLoadingResumes(false);
         }
@@ -33,7 +38,7 @@ export default function Home() {
         loadResumes()
     }, []);
 
-    return <main className="bg-[url('/bg-main.svg')] bg-cover">
+    return <main className="bg-[url('/images/bg-main.svg')] bg-cover">
         <Navbar />
 
         <section className="main-section">
@@ -61,8 +66,13 @@ export default function Home() {
 
         {!loadingResumes && resumes?.length === 0 && (
             <div className="flex flex-col items-center justify-center mt-10 gap-4">
-                <Link to="/upload" className="primary-button w-fit text-xl font-semibold">
-                Upload Resume
+                <Link
+                    to="/upload"
+                    className="primary-button flex items-center w-fit gap-1 text-xl"
+                    aria-label="Upload Resume"
+                >
+                    <Upload className="w-5 h-5" />
+                    <span className="ml-2">Upload Resume</span>
                 </Link>
             </div>
         )}
