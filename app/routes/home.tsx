@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import { usePuterStore } from "../lib/puter";
 import { Upload } from "lucide-react";
-import Navbar from "../components/Navbar";
 import ResumeCard from "../components/ResumeCard";
 
 export function meta({}: Route.MetaArgs) {
@@ -38,11 +37,10 @@ export default function Home() {
         loadResumes()
     }, []);
 
-    return <main className="bg-[url('/images/bg-main.svg')] bg-cover">
-        <Navbar />
-
+    return (
+        <div className="bg-[url('/images/bg-main.svg')] bg-cover bg-no-repeat bg-center min-h-full">
         <section className="main-section">
-        <div className="page-heading py-16">
+        <div className="page-heading">
             <h1>Track Your Applications & Resume Ratings</h1>
             {!loadingResumes && resumes?.length === 0 ? (
                 <h2>No resumes found. Upload your first resume to get feedback.</h2>
@@ -77,5 +75,6 @@ export default function Home() {
             </div>
         )}
         </section>
-    </main>
+    </div>
+    )
 }

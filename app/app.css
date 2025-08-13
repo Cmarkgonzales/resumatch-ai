@@ -4,10 +4,17 @@
 
 @theme {
     --font-sans: "Mona Sans", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; /* Main font stack */
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 
-    --color-dark-200: #475467; /* Dark text */
+    --color-text: #475467; /* Dark text */
+    --color-border: #e2e8f0;
+    --color-bg: #878ff5; /* Light background */
+    --color-bg-secondary: #f0f4ff; /* Secondary background */
 
+    --color-primary: #4f46e5; /* Primary color */
+    --color-primary-hover: #4338ca; /* Primary color on hover */
+    --color-secondary: #f0f4ff; /* Secondary color */
+    --color-secondary-hover: #fa7185cc; /* Secondary color on hover */    
     --color-light-blue-100: #c1d3f81a; /* Light blue bg (subtle) */
     --color-light-blue-200: #a7bff14d; /* Light blue bg (hover) */
 
@@ -22,11 +29,7 @@
 
 html,
 body {
-    @apply bg-white;
-}
-
-main {
-    @apply min-h-screen pt-10;
+    @apply h-full bg-white overflow-hidden font-sans antialiased;
 }
 
 h1 {
@@ -34,11 +37,11 @@ h1 {
 }
 
 h2 {
-    @apply text-3xl text-dark-200;
+    @apply text-3xl text-text;
 }
 
 label {
-    @apply text-dark-200;
+    @apply text-text;
 }
 
 input {
