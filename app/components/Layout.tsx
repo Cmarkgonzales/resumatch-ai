@@ -1,13 +1,18 @@
-import Sidebar from "./Sidebar";
-import { Outlet } from "react-router";
+import Navbar from "./Navbar";
 
-export default function Layout() {
-    return (
-        <div className="flex h-screen overflow-hidden">
-            <Sidebar />
-            <main className="flex-1 bg-gray-50 overflow-y-auto">
-                <Outlet />
-            </main>
-        </div>
-    );
+interface LayoutProps {
+  children: React.ReactNode;
 }
+
+const Layout = ({ children }: LayoutProps) => {
+  return (
+    <main className="bg-[url('/images/bg-main.svg')] bg-cover bg-no-repeat bg-center min-h-full">
+      <section className="main-section">
+        <Navbar />
+        {children}
+      </section>
+    </main>
+  );
+};
+
+export default Layout;

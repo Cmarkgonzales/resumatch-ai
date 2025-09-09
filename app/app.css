@@ -29,7 +29,7 @@
 
 html,
 body {
-    @apply h-full bg-white overflow-hidden font-sans antialiased;
+    @apply h-full bg-white font-sans antialiased;
 }
 
 h1 {
@@ -54,6 +54,10 @@ textarea {
 
 form {
     @apply flex flex-col items-start gap-8 w-full;
+}
+
+button {
+    @apply cursor-pointer;
 }
 
 @layer components {

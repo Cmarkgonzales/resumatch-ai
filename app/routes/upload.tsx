@@ -5,6 +5,12 @@ import { convertPdfToImage } from "../lib/pdf2img";
 import { generateUUID } from "../lib/utils";
 import { prepareInstructions } from "../../constants";
 import FileUploader from "../components/FileUploader";
+import Layout from "../components/Layout";
+
+export const meta = () => ([
+    { title: 'ResuMatch AI | Resume Upload' },
+    { name: 'description', content: 'Upload your resume' },
+])
 
 const Upload = () => {
     const { fs, ai, kv } = usePuterStore();
@@ -78,46 +84,44 @@ const Upload = () => {
     }
 
     return (
-        <div className="bg-[url('/images/bg-main.svg')] bg-cover bg-no-repeat bg-center min-h-full">
-            <section className="main-section">
-                <div className="page-heading">
-                    <h1>Smart feedback for your dream job</h1>
-                    {isProcessing ? (
-                        <>
-                            <h2>{statusText}</h2>
-                            <img src="/images/resume-scan.gif" className="w-full" />
-                        </>
-                    ) : (
-                        <h2>Drop your resume for an ATS score and improvement tips</h2>
-                    )}
-                    {!isProcessing && (
-                        <form id="upload-form" onSubmit={handleSubmit} className="flex flex-col gap-4 mt-8">
-                            <div className="form-div">
-                                <label htmlFor="company-name">Company Name</label>
-                                <input type="text" name="company-name" placeholder="Enter company name" id="company-name" />
-                            </div>
-                            <div className="form-div">
-                                <label htmlFor="job-title">Job Title</label>
-                                <input type="text" name="job-title" placeholder="Enter job title" id="job-title" />
-                            </div>
-                            <div className="form-div">
-                                <label htmlFor="job-description">Job Description</label>
-                                <textarea rows={5} name="job-description" placeholder="Enter job description" id="job-description" />
-                            </div>
+        <Layout>
+            <div className="page-heading">
+                <h1>Smart feedback for your dream job</h1>
+                {isProcessing ? (
+                    <>
+                        <h2>{statusText}</h2>
+                        <img src="/images/resume-scan.gif" className="w-full" />
+                    </>
+                ) : (
+                    <h2>Drop your resume for an ATS score and improvement tips</h2>
+                )}
+                {!isProcessing && (
+                    <form id="upload-form" onSubmit={handleSubmit} className="flex flex-col gap-4 mt-8">
+                        <div className="form-div">
+                            <label htmlFor="company-name">Company Name</label>
+                            <input type="text" name="company-name" placeholder="Enter company name" id="company-name" />
+                        </div>
+                        <div className="form-div">
+                            <label htmlFor="job-title">Job Title</label>
+                            <input type="text" name="job-title" placeholder="Enter job title" id="job-title" />
+                        </div>
+                        <div className="form-div">
+                            <label htmlFor="job-description">Job Description</label>
+                            <textarea rows={5} name="job-description" placeholder="Enter job description" id="job-description" />
+                        </div>
 
-                            <div className="form-div">
-                                <label htmlFor="uploader">Upload Resume</label>
-                                <FileUploader onFileSelect={handleFileSelect} />
-                            </div>
+                        <div className="form-div">
+                            <label htmlFor="uploader">Upload Resume</label>
+                            <FileUploader onFileSelect={handleFileSelect} />
+                        </div>
 
-                            <button className="primary-button w-full text-xl" type="submit">
-                                Analyze Resume
-                            </button>
-                        </form>
-                    )}
-                </div>
-            </section>
-        </div>
+                        <button className="primary-button w-full text-xl" type="submit">
+                            Analyze Resume
+                        </button>
+                    </form>
+                )}
+            </div>
+        </Layout>
     )
 }
 export default Upload
