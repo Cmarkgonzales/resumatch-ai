@@ -6,7 +6,8 @@
     --font-sans: "Mona Sans", ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 
-    --color-text: #475467; /* Dark text */
+    --color-text-primary: #1e2939; /* Dark text */
+    --color-text-secondary: #667085; /* Secondary text */
     --color-border: #e2e8f0;
     --color-bg: #878ff5; /* Light background */
     --color-bg-secondary: #f0f4ff; /* Secondary background */
@@ -17,6 +18,10 @@
     --color-secondary-hover: #fa7185cc; /* Secondary color on hover */    
     --color-light-blue-100: #c1d3f81a; /* Light blue bg (subtle) */
     --color-light-blue-200: #a7bff14d; /* Light blue bg (hover) */
+
+    --color-error: #dc2626; /* Error color */
+    --color-success: #16a34a; /* Success color */
+    --color-warning: #f97316; /* Warning color */
 
     --color-badge-green: #d5faf1; /* Success badge bg */
     --color-badge-red: #f9e3e2; /* Error badge bg */
@@ -37,11 +42,11 @@ h1 {
 }
 
 h2 {
-    @apply text-3xl text-text;
+    @apply text-3xl text-text-primary;
 }
 
 label {
-    @apply text-text;
+    @apply text-text-primary;
 }
 
 input {

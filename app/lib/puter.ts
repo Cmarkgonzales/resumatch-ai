@@ -321,7 +321,6 @@ export const usePuterStore = create<PuterStore>((set, get) => {
             setError("Puter.js not available");
             return;
         }
-        // return puter.ai.chat(prompt, imageURL, testMode, options);
         return puter.ai.chat(prompt, imageURL, testMode, options) as Promise<
             AIResponse | undefined
         >;
