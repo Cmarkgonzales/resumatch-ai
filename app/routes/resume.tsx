@@ -11,16 +11,11 @@ export const meta = () => ([
 ])
 
 const Resume = () => {
-    const { auth, isAuthenticating, fs, kv } = usePuterStore();
+    const { fs, kv } = usePuterStore();
     const { id } = useParams();
     const [imageUrl, setImageUrl] = useState('');
     const [resumeUrl, setResumeUrl] = useState('');
     const [feedback, setFeedback] = useState<Feedback | null>(null);
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        if(!isAuthenticating && !auth.isAuthenticated) navigate(`/auth?next=/resume/${id}`);
-    }, [isAuthenticating])
 
     useEffect(() => {
         const loadResume = async () => {
@@ -56,8 +51,9 @@ const Resume = () => {
                 </Link>
             </nav>
             <div className="flex flex-row w-full max-lg:flex-col-reverse">
+                <h2 className="text-4xl !text-black font-bold">Resume Review</h2>
                 <section className="feedback-section bg-[url('/images/bg-small.svg') bg-cover h-[100vh] sticky top-0 items-center justify-center">
-                    {imageUrl && resumeUrl && (
+                    {imageUrl && resumeUrl ? (
                         <div className="animate-in fade-in duration-1000 gradient-border max-sm:m-0 h-[90%] max-wxl:h-fit w-fit">
                             <a href={resumeUrl} target="_blank" rel="noopener noreferrer">
                                 <img
@@ -67,10 +63,13 @@ const Resume = () => {
                                 />
                             </a>
                         </div>
+                    ) : (
+                        <div className="animate-in fade-in duration-1000 gradient-border max-sm:m-0 h-[90%] max-wxl:h-fit w-fit">
+                            <div className="w-[300px] h-full bg-gray-200 animate-pulse rounded-2xl"></div>
+                        </div>
                     )}
                 </section>
                 <section className="feedback-section">
-                    <h2 className="text-4xl !text-black font-bold">Resume Review</h2>
                     {feedback ? (
                         <div className="flex flex-col gap-8 animate-in fade-in duration-1000">
                             <Summary feedback={feedback} />

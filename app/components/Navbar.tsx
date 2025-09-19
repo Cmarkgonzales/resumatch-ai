@@ -14,7 +14,7 @@ const Navbar = () => {
     const navigate = useNavigate()
 
     const navItems = [
-        { to: "/", label: "Home", icon: <Home className="w-4 h-4" /> },
+        { to: "/home", label: "Home", icon: <Home className="w-4 h-4" /> },
         { to: "/upload", label: "Upload", icon: <Upload className="w-4 h-4" /> },
     ];
 
@@ -47,7 +47,7 @@ const Navbar = () => {
         try {
             await auth.signOut();
             setIsUserMenuActive(false);
-            navigate("/auth");
+            navigate("/");
         } catch (err) {
             console.error("Sign out failed:", err);
         }
@@ -81,7 +81,7 @@ const Navbar = () => {
                     alt="ResuMatch AI Logo"
                     className="w-8 h-8 rounded-full bg-bg-secondary"
                 />
-                <span className="text-xl md:text-2xl font-bold text-gradient">
+                <span className="text-lg md:text-xl font-bold text-gradient">
                     ResuMatch AI
                 </span>
             </Link>
@@ -91,7 +91,7 @@ const Navbar = () => {
                         key={to}
                         to={to}
                         className={({ isActive }) =>
-                            `flex items-center gap-1 text-lg font-medium rounded-full py-2 px-4 ${
+                            `flex items-center gap-1 text-lg md:text-xl font-medium rounded-full py-2 px-4 ${
                                 isActive ? "text-white font-semibold bg-primary" : "text-text-primary hover:text-primary hover:bg-bg-secondary"
                             }`
                         }

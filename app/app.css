@@ -38,11 +38,11 @@ body {
 }
 
 h1 {
-    @apply text-6xl  text-gradient leading-tight tracking-[-2px] font-semibold;
+    @apply text-4xl  text-gradient leading-tight tracking-[-2px] font-semibold pr-1;
 }
 
 h2 {
-    @apply text-3xl text-text-primary;
+    @apply text-2xl text-text-primary;
 }
 
 label {
@@ -71,7 +71,7 @@ button {
     }
 
     .text-gradient {
-        @apply bg-clip-text text-transparent bg-gradient-to-r from-[#AB8C95] via-[#000000] to-[#8E97C5];
+        @apply bg-gradient-to-r from-purple-800 to-pink-800 bg-clip-text text-transparent;
     }
 
     .gradient-border {
@@ -91,7 +91,7 @@ button {
     }
 
     .page-heading {
-        @apply flex flex-col items-center gap-8 max-w-4xl text-center;
+        @apply flex flex-col items-center gap-4 max-w-4xl text-center;
     }
 
     .auth-button {

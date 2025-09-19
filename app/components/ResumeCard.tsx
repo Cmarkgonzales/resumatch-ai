@@ -1,16 +1,18 @@
 import { Link} from "react-router";
 import { useEffect, useState } from "react";
 import ScoreCircle from "~/components/ScoreCircle";
+import { usePuterStore } from "../lib/puter";
 
 const ResumeCard = ({ resume: { id, companyName, jobTitle, feedback, imagePath } }: { resume: Resume }) => {
+    const { fs } = usePuterStore();
     const [resumeUrl, setResumeUrl] = useState('');
 
     useEffect(() => {
         const loadResume = async () => {
-            const response = await fetch(imagePath);
-            if (!response.ok) return;
-            const blob = await response.blob();
-            let url = URL.createObjectURL(blob);
+            const blob = await fs.read(imagePath);
+
+            if (!blob) return;
+            const url = URL.createObjectURL(blob);
             setResumeUrl(url);
         }
 
@@ -29,15 +31,19 @@ const ResumeCard = ({ resume: { id, companyName, jobTitle, feedback, imagePath }
                     <ScoreCircle score={feedback.overallScore} />
                 </div>
             </div>
-            {resumeUrl && (
-                <div className="gradient-border animate-in fade-in duration-1000 relative overflow-hidden rounded-xl">
+            {resumeUrl ? (
+                <div className="gradient-border relative overflow-hidden rounded-xl">
                     <img
                         src={resumeUrl}
                         alt="resume"
-                        className="w-full h-[350px] max-sm:h-[200px] object-cover object-top transition-all duration-300 ease-in-out"
+                        className="w-full h-[350px] max-sm:h-[200px] object-cover object-top animate-in fade-in duration-700 transition-opacity"
                     />
                 </div>
-                )}
+                ) : (
+                <div className="gradient-border relative overflow-hidden rounded-xl">
+                    <div className="w-full h-[350px] max-sm:h-[200px] bg-gray-200 animate-pulse" />
+                </div>
+            )}
         </Link>
     )
 }

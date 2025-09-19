@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { usePuterStore } from "../lib/puter";
 import { Upload } from "lucide-react";
 import ResumeCard from "../components/ResumeCard";
-import Navbar from "~/components/Navbar";
 import Layout from "../components/Layout";
 
 export function meta({}: Route.MetaArgs) {
@@ -15,14 +14,14 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
-    const { auth, kv } = usePuterStore();
+    const { isAuthenticating, auth, kv } = usePuterStore();
+    const navigate = useNavigate();
     const [resumes, setResumes] = useState<Resume[]>([]);
     const [loadingResumes, setLoadingResumes] = useState(false);
-    const navigate = useNavigate();
 
     useEffect(() => {
-        if(!auth.isAuthenticated) navigate('/auth?next=/');
-    }, [auth.isAuthenticated])
+        if(!isAuthenticating && !auth.isAuthenticated) navigate(`/?next=/home`);
+    }, [isAuthenticating])
 
     useEffect(() => {
         const loadResumes = async () => {
@@ -46,7 +45,7 @@ export default function Home() {
                 {!loadingResumes && resumes?.length === 0 ? (
                     <h2>No resumes found. Upload your first resume to get feedback.</h2>
                 ): (
-                <h2>Review your submissions and check AI-powered feedback.</h2>
+                    <h2>Review your submissions and check AI-powered feedback.</h2>
                 )}
             </div>
             {loadingResumes && (
