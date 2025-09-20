@@ -41,7 +41,7 @@ export default function Home() {
     return (
         <Layout>
             <div className="page-heading">
-                <h1>Track Your Applications & Resume Ratings</h1>
+                <h1 className="text-gradient">Track Your Applications & Resume Ratings</h1>
                 {!loadingResumes && resumes?.length === 0 ? (
                     <h2>No resumes found. Upload your first resume to get feedback.</h2>
                 ): (
@@ -50,7 +50,7 @@ export default function Home() {
             </div>
             {loadingResumes && (
                 <div className="flex flex-col items-center justify-center">
-                    <img src="/images/resume-scan-2.gif" className="w-[200px]" />
+                    <img src="/images/resume-scan-2.gif" className="w-[400px]" />
                 </div>
             )}
 
