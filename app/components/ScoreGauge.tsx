@@ -28,8 +28,6 @@ const ScoreGauge = ({ score = 75 }: { score: number }) => {
                             <stop offset="100%" stopColor="#fca5a5" />
                         </linearGradient>
                     </defs>
-
-                    {/* Background arc */}
                     <path
                         d="M10,50 A40,40 0 0,1 90,50"
                         fill="none"
@@ -37,8 +35,6 @@ const ScoreGauge = ({ score = 75 }: { score: number }) => {
                         strokeWidth="10"
                         strokeLinecap="round"
                     />
-
-                    {/* Foreground arc with rounded ends */}
                     <path
                         ref={pathRef}
                         d="M10,50 A40,40 0 0,1 90,50"

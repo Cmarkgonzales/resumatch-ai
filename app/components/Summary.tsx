@@ -18,8 +18,8 @@ const Category = ({ title, score }: { title: string, score: number }) => {
                 </p>
             </div>
         </div>
-    )
-}
+    );
+};
 
 const Summary = ({ feedback }: { feedback: Feedback }) => {
     return (
@@ -40,6 +40,7 @@ const Summary = ({ feedback }: { feedback: Feedback }) => {
             <Category title="Structure" score={feedback.structure.score} />
             <Category title="Skills" score={feedback.skills.score} />
         </div>
-    )
-}
+    );
+};
+
 export default Summary

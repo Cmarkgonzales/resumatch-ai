@@ -1,26 +1,23 @@
 interface ScoreBadgeProps {
-  score: number;
+    score: number;
 }
 
 const ScoreBadge: React.FC<ScoreBadgeProps> = ({ score }) => {
-    let badgeColor = '';
-    let badgeText = '';
+    const getBadge = () => {
+        if (score > 70) return { color: "bg-badge-green text-green-600", text: "Strong" };
+        if (score > 49) return { color: "bg-badge-yellow text-yellow-600", text: "Good Start" };
+        return { color: "bg-badge-red text-red-600", text: "Needs Work" };
+    };
 
-    if (score > 70) {
-        badgeColor = 'bg-badge-green text-green-600';
-        badgeText = 'Strong';
-    } else if (score > 49) {
-        badgeColor = 'bg-badge-yellow text-yellow-600';
-        badgeText = 'Good Start';
-    } else {
-        badgeColor = 'bg-badge-red text-red-600';
-        badgeText = 'Needs Work';
-    }
+    const { color, text } = getBadge();
 
     return (
-        <div className={`px-3 py-1 rounded-full ${badgeColor}`}>
-        <p className="text-sm font-medium">{badgeText}</p>
-        </div>
+        <span
+            className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${color}`}
+            aria-label={`Score: ${text}`}
+        >
+            {text}
+        </span>
     );
 };
 
