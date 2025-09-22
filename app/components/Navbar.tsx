@@ -1,4 +1,4 @@
-import { Link, NavLink, useNavigate } from "react-router";
+import { Link, NavLink, useNavigate, useLocation } from "react-router";
 import { Upload, Home, LogOut, Trash2, Menu } from "lucide-react";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { usePuterStore } from "../lib/puter";
@@ -12,6 +12,7 @@ const Navbar = () => {
     const [files, setFiles] = useState<FSItem[]>([]);
     const userMenuRef = useRef<HTMLDivElement>(null);
     const navigate = useNavigate();
+    const location = useLocation();
 
     const navItems = [
         { to: "/home", label: "Home", icon: <Home className="w-4 h-4" /> },
@@ -71,6 +72,13 @@ const Navbar = () => {
             await kv.flush();
             setFiles([]);
             setShowConfirm(false);
+
+            // Reload or refetch if on home page
+            if (location.pathname === "/home") {
+                navigate(0); // full reload to trigger refetch
+            } else {
+                navigate("/home"); // go back to home
+            }
         } catch (err) {
             console.error("Wipe failed:", err);
         } finally {

@@ -51,8 +51,8 @@ const FileUploader = ({ onFileSelect }: FileUploaderProps) => {
         <div className="w-full gradient-border transition-all duration-300">
             <div
                 {...getRootProps({ tabIndex: 0 })}
-                className={`p-6 border-2 rounded-lg transition ${
-                    isDragActive ? "border-light-blue-200 bg-purple-50" : "border-border bg-bg-secondary"
+                className={`p-6 border-dashed border-2 rounded-lg transition ${
+                    isDragActive ? "border-light-blue-200 bg-purple-50" : "border-gray-300 bg-bg-secondary"
                 }`}
                 role="button"
             >
