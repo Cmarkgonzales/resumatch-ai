@@ -1,87 +1,77 @@
-# Welcome to React Router!
+# ResuMatch AI  
 
-A modern, production-ready template for building full-stack React applications using React Router.
+ResuMatch AI is an intelligent resume analysis tool designed to help job seekers improve their resumes for Applicant Tracking Systems (ATS) and recruiters.  
+It provides actionable feedback, scoring, and improvement tips powered by **AI** and backed by the **[Puter](https://docs.puter.com/)** backend service for authentication and file handling.  
+Note: This project is inspired by [JavaScript Mastery](https://jsmastery.com/)`s AI-powered Resume Analyzer course
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+---
 
-## Features
+## ✨ Features  
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+- 🔐 **Authentication via Puter** – Secure sign-in with external browser flow.  
+- 📂 **Resume Upload & Parsing** – Upload resumes for instant analysis.  
+- 🧠 **AI-Powered Insights** – Get detailed tips on strengths and areas for improvement.  
+- 📊 **Scoring System** – Visual feedback with badges (Strong, Good Start, Needs Work).  
+- 💡 **Improvement Suggestions** – Actionable items tailored to ATS optimization.  
+- 🖼️ **Modern UI** – Clean React + TailwindCSS interface with animations.  
+
+---
+
+## 🛠️ Tech Stack  
+
+- **Frontend:** [React Router v7](https://reactrouter.com/), TypeScript, TailwindCSS, Lucide Icons  
+- **Backend Service:** [Puter API](https://docs.puter.com/) (file storage, auth, and cloud functions)  
+- **AI Integration:** Puter AI services for resume parsing and scoring  
+
+---
+
+## 📸 Screenshots  
+
+![ResuMatch AI Screenshot](./public/images/landing.png)
+
+---
 
 ## Getting Started
 
-### Installation
-
-Install the dependencies:
-
+### 1. Clone the repo  
 ```bash
+git clone https://github.com/cmarkgonzales/resumatch-ai.git
+cd resumatch-ai
+```
+
+### 2. Install dependencies
+```bash
+# Make sure to use node v20+
 npm install
 ```
 
-### Development
-
-Start the development server with HMR:
-
+### 3. Run locally
 ```bash
 npm run dev
-```
-
 Your application will be available at `http://localhost:5173`.
-
-## Building for Production
-
-Create a production build:
-
-```bash
-npm run build
 ```
-
-## Deployment
 
 ### Docker Deployment
 
 To build and run using Docker:
 
 ```bash
-docker build -t my-app .
+docker build -t resumatch-ai .
 
 # Run the container
-docker run -p 3000:3000 my-app
+docker run -p 3000:3000 resumatch-ai
 ```
-
-The containerized application can be deployed to any platform that supports Docker, including:
-
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
-
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
-```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
-
 ---
 
-Built with ❤️ using React Router.
+## 🔐 Authentication Flow
+ResuMatch AI uses Puter’s external browser sign-in:
+
+- Sign in opens in your default browser.
+- Both registration and login are managed externally.
+- After successful sign-in, the app receives the token for secured API requests.
+
+### Future Improvements
+- 📈 Integration with LinkedIn/Indeed profile parsing
+- 🌍 Multi-language resume support
+- 🎯 Job-specific resume tailoring suggestions
+- ☁️ Cloud resume storage and history tracking
