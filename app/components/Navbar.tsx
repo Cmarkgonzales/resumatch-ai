@@ -96,7 +96,7 @@ const Navbar = () => {
                 <img
                     src="/images/logo.svg"
                     alt="ResuMatch AI Logo"
-                    className="w-8 h-8 rounded-full bg-bg-secondary"
+                    className="w-8 h-8 rounded-xl bg-bg-secondary"
                 />
                 <span className="text-lg md:text-xl font-bold text-gradient">
                     ResuMatch AI

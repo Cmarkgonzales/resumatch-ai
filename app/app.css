@@ -182,3 +182,28 @@ button {
         opacity: 1;
     }
 }
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-4px);
+    }
+}
+
+@keyframes heroGlow {
+    0%, 100% {
+        filter: drop-shadow(0 0 0px rgba(79, 70, 229, 0));
+    }
+    50% {
+        filter: drop-shadow(0 8px 24px rgba(79, 70, 229, 0.2));
+    }
+}
+
+@layer components {
+    .hero-image {
+        animation: float 4s ease-in-out infinite, heroGlow 4s ease-in-out infinite;
+        @apply hover:scale-105 hover:drop-shadow-2xl active:scale-100 transition-transform duration-300;
+    }
+}
