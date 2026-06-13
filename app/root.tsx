@@ -8,6 +8,7 @@ import {
 } from "react-router";
 import type { Route } from "./+types/root";
 import "./app.css";
+import { appConfig } from "~/lib/config";
 import { usePuterStore } from "~/lib/puter";
 import { useEffect } from "react";
 
@@ -40,7 +41,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 <Links />
             </head>
             <body>
-                <script src="https://js.puter.com/v2/"></script>
+                <script src={appConfig.puter.scriptSrc}></script>
                 {children}
                 <ScrollRestoration />
                 <Scripts />

@@ -45,7 +45,25 @@ cd resumatch-ai
 npm install
 ```
 
-### 3. Run locally
+### 3. Configure environment
+```bash
+cp .env.example .env
+```
+
+Common runtime values can be changed in `.env` without editing code:
+
+- `VITE_AI_FEEDBACK_MODEL`
+- `VITE_PDF_WORKER_SRC`
+- `VITE_PDF_RENDER_SCALE`
+- `VITE_PDF_IMAGE_MIME_TYPE`
+- `VITE_PDF_IMAGE_EXTENSION`
+- `VITE_PDF_IMAGE_QUALITY`
+- `VITE_PUTER_SCRIPT_SRC`
+- `VITE_PUTER_INIT_POLL_MS`
+- `VITE_PUTER_INIT_TIMEOUT_MS`
+- `VITE_RESUME_KV_PREFIX`
+
+### 4. Run locally
 ```bash
 npm run dev
 Your application will be available at `http://localhost:5173`.

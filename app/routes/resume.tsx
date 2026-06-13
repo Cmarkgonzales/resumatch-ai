@@ -5,6 +5,7 @@ import Summary from "../components/Summary";
 import ATS from "../components/ATS";
 import Details from "../components/Details";
 import { ArrowLeft } from "lucide-react";
+import { getResumeKey } from "../lib/config";
 
 export const meta = () => ([
     { title: "ResuMatch AI | Resume Feedback" },
@@ -29,7 +30,9 @@ const Resume = () => {
 
     useEffect(() => {
         const loadResume = async () => {
-            const resume = await kv.get(`resume:${id}`);
+            if (!id) return;
+
+            const resume = await kv.get(getResumeKey(id));
             if (!resume) return;
 
             const data = JSON.parse(resume);

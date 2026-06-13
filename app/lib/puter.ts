@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { appConfig } from "./config";
 
 declare global {
     interface Window {
@@ -255,14 +256,18 @@ export const usePuterStore = create<PuterStore>((set, get) => {
                 set({ puterReady: true });
                 checkAuthStatus();
             }
-        }, 100);
+        }, appConfig.puter.initPollMs);
 
         setTimeout(() => {
             clearInterval(interval);
             if (!getPuter()) {
-                setError("Puter.js failed to load within 10 seconds");
+                setError(
+                    `Puter.js failed to load within ${
+                        appConfig.puter.initTimeoutMs / 1000
+                    } seconds`
+                );
             }
-        }, 10000);
+        }, appConfig.puter.initTimeoutMs);
     };
 
     const write = async (path: string, data: string | File | Blob) => {
@@ -349,7 +354,7 @@ export const usePuterStore = create<PuterStore>((set, get) => {
                     ],
                 },
             ],
-            { model: "claude-3-7-sonnet" }
+            { model: appConfig.ai.feedbackModel }
         ) as Promise<AIResponse | undefined>;
     };
 

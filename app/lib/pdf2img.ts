@@ -1,3 +1,5 @@
+import { appConfig } from "./config";
+
 export interface PdfConversionResult {
     imageUrl: string;
     file: File | null;
@@ -15,8 +17,7 @@ async function loadPdfJs(): Promise<any> {
     isLoading = true;
     // @ts-expect-error - pdfjs-dist/build/pdf.mjs is not a module
     loadPromise = import("pdfjs-dist/build/pdf.mjs").then((lib) => {
-        // Set the worker source to use local file
-        lib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
+        lib.GlobalWorkerOptions.workerSrc = appConfig.pdf.workerSrc;
         pdfjsLib = lib;
         isLoading = false;
         return lib;
@@ -35,7 +36,7 @@ export async function convertPdfToImage(
         const pdf = await lib.getDocument({ data: arrayBuffer }).promise;
         const page = await pdf.getPage(1);
 
-        const viewport = page.getViewport({ scale: 4 });
+        const viewport = page.getViewport({ scale: appConfig.pdf.renderScale });
         const canvas = document.createElement("canvas");
         const context = canvas.getContext("2d");
 
@@ -55,9 +56,11 @@ export async function convertPdfToImage(
                     if (blob) {
                         // Create a File from the blob with the same name as the pdf
                         const originalName = file.name.replace(/\.pdf$/i, "");
-                        const imageFile = new File([blob], `${originalName}.png`, {
-                            type: "image/png",
-                        });
+                        const imageFile = new File(
+                            [blob],
+                            `${originalName}.${appConfig.pdf.imageExtension}`,
+                            { type: appConfig.pdf.imageMimeType }
+                        );
 
                         resolve({
                             imageUrl: URL.createObjectURL(blob),
@@ -71,9 +74,9 @@ export async function convertPdfToImage(
                         });
                     }
                 },
-                "image/png",
-                1.0
-            ); // Set quality to maximum (1.0)
+                appConfig.pdf.imageMimeType,
+                appConfig.pdf.imageQuality
+            );
         });
     } catch (err) {
         return {

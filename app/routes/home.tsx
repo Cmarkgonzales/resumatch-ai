@@ -5,6 +5,7 @@ import { usePuterStore } from "../lib/puter";
 import { Upload } from "lucide-react";
 import ResumeCard from "../components/ResumeCard";
 import Layout from "../components/Layout";
+import { getResumeListPattern } from "../lib/config";
 
 export function meta({}: Route.MetaArgs) {
     return [
@@ -26,7 +27,7 @@ export default function Home() {
     useEffect(() => {
         const loadResumes = async () => {
             setLoadingResumes(true);
-            const resumes = (await kv.list('resume:*', true)) as KVItem[];
+            const resumes = (await kv.list(getResumeListPattern(), true)) as KVItem[];
 
             const parsedResumes = resumes?.map((resume) => (
                 JSON.parse(resume.value) as Resume

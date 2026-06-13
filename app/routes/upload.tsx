@@ -6,6 +6,7 @@ import { generateUUID } from "../lib/utils";
 import { prepareInstructions } from "../../constants";
 import FileUploader from "../components/FileUploader";
 import Layout from "../components/Layout";
+import { getResumeKey } from "../lib/config";
 
 export const meta = () => ([
     { title: "ResuMatch AI | Resume Upload" },
@@ -63,7 +64,7 @@ const Upload = () => {
                 jobDescription,
                 feedback: "",
             };
-            await kv.set(`resume:${uuid}`, JSON.stringify(data));
+            await kv.set(getResumeKey(uuid), JSON.stringify(data));
 
             setStatusText("Analyzing...");
             const feedback = await ai.feedback(
@@ -78,7 +79,7 @@ const Upload = () => {
                 : feedback.message.content[0].text;
 
             data.feedback = JSON.parse(feedbackText);
-            await kv.set(`resume:${uuid}`, JSON.stringify(data));
+            await kv.set(getResumeKey(uuid), JSON.stringify(data));
 
             setStatusText("Analysis complete, redirecting...");
             navigate(`/resume/${uuid}`);
