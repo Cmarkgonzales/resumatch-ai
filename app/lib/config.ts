@@ -32,6 +32,9 @@ const pdfImageMimeType = getString("VITE_PDF_IMAGE_MIME_TYPE", "image/png");
 export const appConfig = {
     ai: {
         feedbackModel: getString("VITE_AI_FEEDBACK_MODEL", "gpt-5.4-nano"),
+        maxResumeTextChars: getNumber("VITE_AI_MAX_RESUME_TEXT_CHARS", 24000, {
+            min: 1000,
+        }),
     },
     pdf: {
         workerSrc: getString("VITE_PDF_WORKER_SRC", "/pdf.worker.min.mjs"),

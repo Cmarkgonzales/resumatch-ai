@@ -1,16 +1,17 @@
-import { useCallback, useState } from 'react';
-import { useDropzone } from 'react-dropzone';
-import { formatSize } from '../lib/utils';
-import { X, CloudUpload, AlertCircle } from 'lucide-react';
+import { type MouseEvent, useCallback, useEffect, useState } from "react";
+import { useDropzone } from "react-dropzone";
+import { AlertCircle, CheckCircle2, CloudUpload, FileText, X } from "lucide-react";
+import { formatSize } from "../lib/utils";
 
 interface FileUploaderProps {
     onFileSelect?: (file: File | null) => void;
 }
 
+const maxFileSize = 20 * 1024 * 1024;
+
 const FileUploader = ({ onFileSelect }: FileUploaderProps) => {
     const [file, setFile] = useState<File | null>(null);
     const [error, setError] = useState<string | null>(null);
-    const maxFileSize = 20 * 1024 * 1024; // 20MB in bytes
 
     const onDrop = useCallback(
         (acceptedFiles: File[]) => {
@@ -22,92 +23,112 @@ const FileUploader = ({ onFileSelect }: FileUploaderProps) => {
         [onFileSelect]
     );
 
-    const {getRootProps, getInputProps, isDragActive, fileRejections,} = useDropzone({
+    const {
+        getRootProps,
+        getInputProps,
+        isDragActive,
+        isDragReject,
+        fileRejections,
+    } = useDropzone({
         onDrop,
         multiple: false,
-        accept: { 'application/pdf': ['.pdf']},
+        accept: { "application/pdf": [".pdf"] },
         maxSize: maxFileSize,
     });
 
-    // If dropzone rejects, set error
-    if (fileRejections.length > 0 && !error) {
+    useEffect(() => {
+        if (fileRejections.length === 0) return;
+
         const rejection = fileRejections[0];
         if (rejection.errors.some((e) => e.code === "file-invalid-type")) {
-            setError("Invalid file type. Only PDF files are allowed.");
-        } else if (rejection.errors.some((e) => e.code === "file-too-large")) {
-            setError(`File is too large. Max allowed size is ${formatSize(maxFileSize)}.`);
-        } else {
-            setError("Failed to upload file. Please try again.");
+            setError("Upload a PDF file so the resume preview can be analyzed.");
+            return;
         }
-    }
+        if (rejection.errors.some((e) => e.code === "file-too-large")) {
+            setError(`Keep the PDF under ${formatSize(maxFileSize)}.`);
+            return;
+        }
 
-    const handleRemove = (e: React.MouseEvent) => {
+        setError("The file could not be added. Try a different PDF.");
+    }, [fileRejections]);
+
+    const handleRemove = (e: MouseEvent) => {
         e.stopPropagation();
         setFile(null);
+        setError(null);
         onFileSelect?.(null);
     };
 
     return (
-        <div className="w-full gradient-border transition-all duration-300">
+        <div className="w-full">
             <div
                 {...getRootProps({ tabIndex: 0 })}
-                className={`p-6 border-dashed border-2 rounded-lg transition ${
-                    isDragActive ? "border-light-blue-200 bg-purple-50" : "border-gray-300 bg-bg-secondary"
+                className={`group flex min-h-[220px] cursor-pointer flex-col items-center justify-center rounded-[8px] border-2 border-dashed bg-white p-6 text-center shadow-sm transition duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+                    isDragReject
+                        ? "border-red-300 bg-red-50"
+                        : isDragActive
+                            ? "border-primary bg-indigo-50"
+                            : file
+                                ? "border-green-200 bg-green-50/40"
+                                : "border-indigo-200 hover:border-primary hover:bg-bg-secondary"
                 }`}
                 role="button"
+                aria-label="Upload your resume in PDF format"
             >
-                <input {...getInputProps()} aria-label="Upload your resume in PDF format"/>
+                <input {...getInputProps()} aria-label="Upload your resume in PDF format" />
 
-                <div className="space-y-4 cursor-pointer">
-                    {file ? (
-                        <div className="uploader-selected-file" onClick={(e) => e.stopPropagation()}>
-                            <img src="/images/pdf.png" alt={`${file.name} PDF file`} className="size-10" />
-                            <div className="flex items-center space-x-3">
-                                <div>
-                                    <p className="text-sm font-medium text-gray-700 truncate max-w-xs">
-                                        {file.name}
-                                    </p>
-                                    <p className="text-sm text-gray-500">
-                                        {formatSize(file.size)}
-                                    </p>
-                                </div>
-                            </div>
-                            <button
-                                className="p-2 cursor-pointer rounded-full hover:bg-gray-100"
-                                onClick={handleRemove}
-                                aria-label="Remove file"
-                            >
-                                <X className="w-4 h-4 text-gray-600" aria-hidden="true" />
-                            </button>
+                {file ? (
+                    <div className="flex w-full flex-col items-center gap-4 sm:flex-row sm:text-left">
+                        <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[8px] bg-white shadow-sm ring-1 ring-green-100">
+                            <img src="/images/pdf.png" alt="" className="h-10 w-10" />
                         </div>
-                    ): (
-                        <div>
-                            <div className="mx-auto w-16 h-16 flex items-center justify-center mb-2">
-                                <div className="w-12 h-12 rounded-lg bg-gray-400 flex items-center justify-center">
-                                    <CloudUpload className="w-10 h-10 text-gray-50" aria-hidden="true" />
-                                </div>
+                        <div className="min-w-0 flex-1">
+                            <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
+                                <CheckCircle2 className="h-3.5 w-3.5" aria-hidden="true" />
+                                Ready to analyze
                             </div>
-                            <p className="text-lg text-gray-500">
-                                <span className="font-semibold">
-                                    Click to upload
-                                </span> or drag and drop
-                            </p>
-                            <p className="text-lg text-gray-500">PDF (max {formatSize(maxFileSize)})</p>
+                            <p className="truncate text-base font-bold text-text-primary">{file.name}</p>
+                            <p className="text-sm text-text-secondary">{formatSize(file.size)}</p>
                         </div>
-                    )}
-                </div>
-                {error && (
-                    <div
-                        className="mt-3 flex justify-center items-center gap-2 text-red-600 text-sm"
-                        role="alert"
-                        aria-live="polite"
-                    >
-                        <AlertCircle className="w-4 h-4" aria-hidden="true" />
-                        <span>{error}</span>
+                        <button
+                            className="flex min-h-11 min-w-11 items-center justify-center rounded-[8px] text-text-secondary transition hover:bg-white hover:text-red-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+                            onClick={handleRemove}
+                            aria-label="Remove selected file"
+                        >
+                            <X className="h-5 w-5" aria-hidden="true" />
+                        </button>
+                    </div>
+                ) : (
+                    <div className="flex max-w-md flex-col items-center">
+                        <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-[8px] bg-gradient-to-br from-[#4f46e5] to-[#7c3aed] text-white shadow-lg shadow-indigo-100 transition group-hover:scale-105">
+                            <CloudUpload className="h-8 w-8" aria-hidden="true" />
+                        </div>
+                        <p className="text-lg font-bold text-text-primary">
+                            Drop your resume here
+                        </p>
+                        <p className="mt-2 text-sm leading-6 text-text-secondary">
+                            Click to browse or drag in a PDF. We use the first page for the preview and the full file for analysis.
+                        </p>
+                        <div className="mt-4 flex items-center gap-2 rounded-full bg-bg-secondary px-3 py-1.5 text-xs font-semibold text-primary">
+                            <FileText className="h-3.5 w-3.5" aria-hidden="true" />
+                            PDF up to {formatSize(maxFileSize)}
+                        </div>
                     </div>
                 )}
             </div>
+
+            {error && (
+                <div
+                    className="mt-3 flex items-start gap-2 rounded-[8px] border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-700"
+                    role="alert"
+                    aria-live="polite"
+                >
+                    <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+                    <span>{error}</span>
+                </div>
+            )}
         </div>
     );
 };
-export default FileUploader
+
+export default FileUploader;

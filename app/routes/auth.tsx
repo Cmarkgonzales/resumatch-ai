@@ -77,7 +77,7 @@ const Auth = () => {
                         <img
                             src="/images/logo.svg"
                             alt="ResuMatch AI"
-                            className="h-10 w-10 rounded-xl bg-white shadow-sm ring-1 ring-indigo-100"
+                            className="h-10 w-10 rounded-[8px] bg-white shadow-sm ring-1 ring-indigo-100"
                         />
                         <span className="text-lg font-bold text-primary">ResuMatch AI</span>
                     </div>
@@ -144,7 +144,7 @@ const Auth = () => {
                                     <img
                                         src="/images/resumatch-hero.png"
                                         alt="ResuMatch AI resume analysis preview"
-                                        className="hero-image h-auto w-full max-h-96 sm:max-h-[28rem] lg:max-h-[36rem] xl:max-h-[40rem] object-contain object-center opacity-95 transition duration-300 group-hover:opacity-100"
+                                        className="h-auto max-h-96 w-full object-contain object-center opacity-95 transition duration-300 group-hover:scale-[1.02] group-hover:opacity-100 sm:max-h-[28rem] lg:max-h-[36rem] xl:max-h-[40rem]"
                                     />
                                 </div>
 
@@ -184,8 +184,6 @@ const Auth = () => {
                                         />
                                     </button>
                                 )}
-
-
                             </div>
                         </div>
                     </aside>

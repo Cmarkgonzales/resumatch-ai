@@ -10,6 +10,13 @@ let pdfjsLib: any = null;
 let isLoading = false;
 let loadPromise: Promise<any> | null = null;
 
+interface PdfTextItem {
+    str?: string;
+    transform?: number[];
+    width?: number;
+    hasEOL?: boolean;
+}
+
 async function loadPdfJs(): Promise<any> {
     if (pdfjsLib) return pdfjsLib;
     if (loadPromise) return loadPromise;
@@ -85,4 +92,69 @@ export async function convertPdfToImage(
             error: `Failed to convert PDF: ${err}`,
         };
     }
+}
+
+export async function extractPdfText(file: File): Promise<string> {
+    const lib = await loadPdfJs();
+    const arrayBuffer = await file.arrayBuffer();
+    const pdf = await lib.getDocument({ data: arrayBuffer }).promise;
+    const pages: string[] = [];
+
+    for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber += 1) {
+        const page = await pdf.getPage(pageNumber);
+        const content = await page.getTextContent();
+        const text = extractPageText(content.items as PdfTextItem[]);
+
+        if (text) pages.push(text);
+    }
+
+    return pages.join("\n\n").trim();
+}
+
+function extractPageText(items: PdfTextItem[]): string {
+    const positionedItems = items
+        .map((item) => ({
+            text: (item.str || "").replace(/\s+/g, " ").trim(),
+            x: item.transform?.[4] ?? 0,
+            y: item.transform?.[5] ?? 0,
+            width: item.width ?? 0,
+            hasEOL: item.hasEOL ?? false,
+        }))
+        .filter((item) => item.text);
+
+    if (positionedItems.length === 0) return "";
+
+    const lineTolerance = 2.5;
+    const lines: { y: number; items: typeof positionedItems }[] = [];
+
+    for (const item of positionedItems.sort((a, b) => b.y - a.y || a.x - b.x)) {
+        const line = lines.find((candidate) => Math.abs(candidate.y - item.y) <= lineTolerance);
+
+        if (line) {
+            line.items.push(item);
+            line.y = (line.y + item.y) / 2;
+        } else {
+            lines.push({ y: item.y, items: [item] });
+        }
+    }
+
+    return lines
+        .sort((a, b) => b.y - a.y)
+        .map((line) => {
+            const lineItems = line.items.sort((a, b) => a.x - b.x);
+            return lineItems.reduce((text, item, index) => {
+                if (index === 0) return item.text;
+
+                const previous = lineItems[index - 1];
+                const previousEnd = previous.x + previous.width;
+                const gap = item.x - previousEnd;
+                const separator = previous.hasEOL || gap > 3 ? " " : "";
+
+                return `${text}${separator}${item.text}`;
+            }, "");
+        })
+        .join("\n")
+        .replace(/[ \t]+\n/g, "\n")
+        .replace(/\n{3,}/g, "\n\n")
+        .trim();
 }
